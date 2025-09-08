@@ -1,0 +1,31 @@
+FROM python:3.12-slim
+
+# 필수 OS 패키지
+# mysqlclient 빌드 필수 패키지
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    default-libmysqlclient-dev \
+    pkg-config \
+ && rm -rf /var/lib/apt/lists/*
+
+# 파이썬 설정
+# PYTHONDONTWRITEBYTECODE: .pyc 바이트코드 캐시 파일 생성 방지
+# PYTHONUNBUFFERED: 로그 출력 버퍼링 없이 즉시 표시 (docker logs 실시간 확인)
+# PIP_NO_CACHE_DIR: pip 캐시를 남기지 않아 이미지 용량 최소화
+# POETRY_VIRTUALENVS_CREATE: Poetry가 별도 가상환경 생성하지 않고 글로벌에 설치
+ENV PYTHONDONTWRITEBYTECODE=1 \        
+    PYTHONUNBUFFERED=1 \              
+    PIP_NO_CACHE_DIR=1 \              
+    POETRY_VIRTUALENVS_CREATE=false   
+
+# 컨테이너 내 작업 디렉토리
+WORKDIR /app
+
+
+# 의존성 설치 (캐시 최적화)
+COPY requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# 컨테이너 내부에서 사용할 포트(8002) 지정
+# 실제 포트 매핑은 docker-compose.yml에서 설정
+EXPOSE 8002

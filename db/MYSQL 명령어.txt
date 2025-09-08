@@ -1,0 +1,56 @@
+# DB 컨테이너 접속 후 명령어
+docker compose exec db mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD" -e "SHOW DATABASES;"
+
+# Root로 접속
+docker compose exec db sh -lc 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+
+# 앱 유저로 접속
+docker compose exec db sh -lc 'mysql -u"$MYSQL_USER" -p"$MYSQL_PASSWORD"'
+
+# 나가기 : \q 엔터
+
+
+-- 서버/문자셋/콜레이션 보기
+SELECT @@version, @@character_set_server, @@collation_server;
+
+-- DB 목록
+SHOW DATABASES;
+
+-- 대상 DB 선택 (예: parkid)
+USE parkid;
+
+-- 현재 DB 확인
+SELECT DATABASE();
+
+-- 현재 계정/권한 확인
+SELECT CURRENT_USER();
+SHOW GRANTS;                -- 현재 사용자 권한
+-- 또는 특정 사용자
+-- SHOW GRANTS FOR 'admin'@'%';
+
+-- 테이블 목록
+SHOW TABLES;
+-- 뷰까지 구분해서 보고 싶다면
+SHOW FULL TABLES;
+
+-- 테이블 구조
+DESCRIBE your_table;
+-- 더 자세한 DDL
+SHOW CREATE TABLE your_table\G
+
+-- 인덱스
+SHOW INDEX FROM your_table;
+
+-- 테이블 상태/엔진/행 추정치
+SHOW TABLE STATUS LIKE 'your_table'\G
+
+-- 행 수/샘플 조회
+SELECT COUNT(*) FROM your_table;
+SELECT * FROM your_table LIMIT 10;
+
+-- 현재 세션 타임존/트랜잭션 수준
+SELECT @@session.time_zone, @@global.time_zone;
+SELECT @@transaction_isolation;
+
+-- 스토리지 엔진 확인
+SHOW ENGINES;
