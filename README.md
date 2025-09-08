@@ -7,7 +7,7 @@ JWT 인증(DRF SimpleJWT)과 Docker Compose를 기본 제공하며, 프런트엔
 - **Use case**: 회원가입/인증/프로필을 빠르게 붙일 수 있는 백엔드 스타터
 
 ## 📦 Docker Hub
-이미지: [<your-dockerhub-username>/django-jwt-account](<PUT-YOUR-DOCKER-HUB-LINK-HERE>)
+이미지: [ditlswlwhs3/django-account-template](https://hub.docker.com/repository/docker/ditlswlwhs3/django-account-template/general)
 
 
 ## ▶️ 빠른 시작

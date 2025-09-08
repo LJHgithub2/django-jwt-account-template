@@ -12,8 +12,15 @@
 # docker compose exec backend python manage.py makemigrations
 # docker compose run --rm backend python manage.py migrate --noinput
 
+# docker hub에 올리기
+# docker login
+# docker compose build backend --push # backend 이미지 빌드 후 푸시
+# docker compose build frontend --push # frontend 이미지 빌드 후 푸시
+
+
 services:
   backend:
+    image: ${DH_USER}/${APP_NAME}:${VERSION}   # docker hub 이미지 사용
     build:
       context: ./backend
       dockerfile: dockerfile         # backend/dockerfile 사용
